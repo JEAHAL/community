@@ -2,9 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.columns.dao.UserMapper">
-<!--    !&#45;&#45;    上面写的是为哪个mapper接口服务&ndash;&gt;-->
-<!--    sql创建共享sql域 复用字段-->
+<mapper namespace="com.nowcoder.community.dao.UserMapper">
+
     <sql id="insertFields">
         username, password, salt, email, type, status, activation_code, header_url, create_time
     </sql>
@@ -13,9 +12,6 @@
         id, username, password, salt, email, type, status, activation_code, header_url, create_time
     </sql>
 
-<!--    前面是方法 id = "特定方法返回" 后面是对象 返回User类型-->
-<!--    这里面写查询语句-->
-<!--    # id表示需要引用方法的参数-->
     <select id="selectById" resultType="User">
         select <include refid="selectFields"></include>
         from user
@@ -34,16 +30,11 @@
         where email = #{email}
     </select>
 
-<!--    增加是parameterType增加参数的属性-->
-<!--    后面User类中增加的ID的底层属性,填入User,所以得知道属于User的谁-->
-<!--    inser into 表 {字段}-->
-<!--    value(#{从方法中获取字段数据})-->
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into user (<include refid="insertFields"></include>)
         values(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
     </insert>
 
-<!--    update 表 set 字段 = 什么参数 当 id = 特定对象-->
     <update id="updateStatus">
         update user set status = #{status} where id = #{id}
     </update>
